@@ -30,17 +30,22 @@ else
 
 fi
 
-echo -e "Please provide the Server IP "
-read ServerIP
+OLDIFS=$IFS
+IFS=","
 
-echo -e "Please provide Server's ssh port"
-read Sshport
+cat inputfile.sh |grep -v "#" > /tmp/tmpinput.csv
 
-echo -e "Please provide the user name"
-read Username
+while read f1 f2 f3 f4 f5 f6 f7 f8
+do
+        Hostname=${f1}
+        Sshport=${f2}
+        Sshuser=${f3}
+	Sshuserpassword=${f4}
 
-echo -e "Please provide the password"
-read Password
+sshpass -p "$Sshuserpassword" ssh-copy-id -o StrictHostKeyChecking=no $Sshuser@$Hostname -p $Sshport
 
-#sshpass -p server_password ssh-copy-id user@IP -p port_number
-sshpass -p "$Password" ssh-copy-id -o StrictHostKeyChecking=no $Username@$ServerIP -p $Sshport
+done < /tmp/tmpinput.csv
+IFS=$OLDIFS
+
+##Cleaning tmp file
+rm -rf
