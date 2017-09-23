@@ -33,7 +33,7 @@ fi
 OLDIFS=$IFS
 IFS=","
 
-cat inputfile.sh |grep -v "#" > /tmp/tmpinput.csv
+cat inputfile.sh |grep -v "^#" > /tmp/tmpinput.csv
 
 while read f1 f2 f3 f4 f5 f6 f7 f8
 do
